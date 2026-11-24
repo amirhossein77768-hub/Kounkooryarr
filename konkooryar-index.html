@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>کنکور یار 💜</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#f5f0ff;color:#30234b}
+header{background:linear-gradient(135deg,#7041b8,#a77be8);color:white;padding:28px 18px;text-align:center;border-radius:0 0 28px 28px}
+header h1{margin:0 0 10px;font-size:30px}
+header p{margin:8px 0}
+.verse{font-size:19px;line-height:2;margin-top:18px}
+.container{max-width:850px;margin:auto;padding:16px}
+.card{background:white;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 5px 18px #4b287315}
+h2{color:#7545b5;margin-top:0;font-size:20px}
+input,button{font-family:inherit;border-radius:10px;padding:11px;border:1px solid #d8c8ef;font-size:14px}
+input{max-width:100%;width:100%;margin:6px 0}
+button{background:#8050c3;color:white;border:0;cursor:pointer;margin:5px 0}
+button:hover{background:#6337a3}
+.small-btn{padding:7px 12px}
+.nav{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.nav button{width:100%;margin:3px 0}
+.section{scroll-margin-top:12px}
+.task{display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid #eee}
+.task input{width:auto;margin:0}
+.task span{flex:1}
+.done{text-decoration:line-through;color:#999}
+.big-time{font-size:34px;text-align:center;color:#7545b5;margin:15px}
+.muted{color:#887a9b;font-size:13px}
+footer{text-align:center;padding:25px;color:#887a9b}
+#welcome{position:fixed;inset:0;background:#7041b8;color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:25px;z-index:5}
+#welcome h1{font-size:29px}
+#typing{font-size:17px;min-height:55px;line-height:2}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="welcome">
+  <h1>💜 کنکور یار</h1>
+  <p id="typing"></p>
+  <button onclick="enterSite()">شروع کنیم</button>
+</div>
+<header>
+  <h1>کنکور یار 💜</h1>
+  <p>با تلاش امروز، آینده‌ات را بساز</p>
+  <div class="verse">
+    وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَىٰ
+    <div class="muted" style="color:#eee">سوره نجم، آیه ۳۹</div>
+  </div>
+</header>
+<main class="container">
+<div class="card">
+  <h2>👤 پروفایل من</h2>
+  <p>سلام <strong id="showName">دوست کنکوری</strong>!</p>
+  <input id="username" placeholder="اسم خودت را بنویس">
+  <button onclick="saveName()">ذخیره نام</button>
+  <p class="muted">این پروفایل فعلاً فقط روی همین دستگاه ذخیره می‌شود.</p>
+</div>
+<div class="card nav">
+  <button onclick="go('exams')">📝 آزمون و تحلیل</button>
+  <button onclick="go('study')">⏱️ سالن مطالعه</button>
+  <button onclick="go('goals')">🌟 اهداف و آرزوها</button>
+  <button onclick="go('tasks')">🌱 کارهای غیردرسی</button>
+</div>
+<section class="card section" id="exams">
+  <h2>📝 آزمون و تحلیل آزمون</h2>
+  <p class="muted">نتیجه‌ی آزمون‌هایت را ثبت کن.</p>
+  <input id="examName" placeholder="نام آزمون">
+  <input id="examScore" type="number" placeholder="درصد یا نمره">
+  <input id="examNote" placeholder="نکته‌ها و تحلیل آزمون">
+  <button onclick="addExam()">ثبت آزمون</button>
+  <div id="examList"></div>
+  <hr>
+  <h3>⏳ شمارش معکوس کنکور</h3>
+  <label>تاریخ کنکور را انتخاب کن:</label>
+  <input id="examDate" type="date">
+  <div class="big-time" id="countdown">تاریخ را انتخاب کن</div>
+</section>
+<section class="card section" id="study">
+  <h2>📚 سالن مطالعه</h2>
+  <p>زمان مطالعه‌ات را مدیریت کن.</p>
+  <div class="big-time" id="timer">00:00:00</div>
+  <div style="text-align:center">
+    <button onclick="startTimer()">شروع مطالعه</button>
+    <button onclick="pauseTimer()">توقف</button>
+    <button onclick="resetTimer()">از اول</button>
+  </div>
+  <p class="muted">اتاق صوتی گروهی در نسخه‌ی بعدی، با اتصال به سرویس مناسب اضافه می‌شود.</p>
+</section>
+<section class="card section" id="goals">
+  <h2>🌟 اهداف و آرزوها</h2>
+  <input id="goalInput" placeholder="هدفت را بنویس...">
+  <button onclick="addGoal()">افزودن هدف</button>
+  <div id="goalList"></div>
+</section>
+<section class="card section" id="tasks">
+  <h2>🌱 کارهای غیردرسی</h2>
+  <p class="muted">تعادل بین درس و استراحت هم مهم است.</p>
+  <input id="taskInput" placeholder="مثلاً ۱۰ تا شنا یا نیم ساعت استراحت">
+  <button onclick="addTask()">افزودن کار</button>
+  <div id="taskList"></div>
+</section>
+</main>
+<footer>ساخته شده با 💜 برای کنکوری‌های پرتلاش</footer>
+<script>
+const $ = id => document.getElementById(id);
+function enterSite(){$("welcome").classList.add("hidden")}
+const welcomeText="به کنکور یار خوش آمدی؛ آینده از تلاش امروزت ساخته می‌شود.";
+let letter=0;
+function typeText(){if(letter<welcomeText.length){$("typing").textContent+=welcomeText[letter++];setTimeout(typeText,65)}}
+typeText();
+function saveName(){const name=$("username").value.trim();if(!name)return alert("اول اسمت را بنویس!");localStorage.setItem("ky_name",name);showName()}
+function showName(){const name=localStorage.getItem("ky_name");if(name)$("showName").textContent=name}
+showName();
+function go(id){$(id).scrollIntoView({behavior:"smooth"})}
+
+let tasks=JSON.parse(localStorage.getItem("ky_tasks")||"[]");
+function saveTasks(){localStorage.setItem("ky_tasks",JSON.stringify(tasks));renderTasks()}
+function addTask(){const value=$("taskInput").value.trim();if(!value)return;tasks.push({text:value,done:false});$("taskInput").value="";saveTasks()}
+function renderTasks(){
+  $("taskList").innerHTML="";
+  tasks.forEach((task,index)=>{
+    const row=document.createElement("div");row.className="task";
+    const check=document.createElement("input");check.type="checkbox";check.checked=task.done;
+    check.onchange=()=>{tasks[index].done=check.checked;saveTasks()};
+    const text=document.createElement("span");text.textContent=task.text;if(task.done)text.className="done";
+    const del=document.createElement("button");del.className="small-btn";del.textContent="حذف";
+    del.onclick=()=>{tasks.splice(index,1);saveTasks()};
+    row.append(check,text,del);$("taskList").append(row);
+  });
+}
+renderTasks();
+
+let goals=JSON.parse(localStorage.getItem("ky_goals")||"[]");
+function addGoal(){const value=$("goalInput").value.trim();if(!value)return;goals.push(value);$("goalInput").value="";saveGoals()}
+function saveGoals(){localStorage.setItem("ky_goals",JSON.stringify(goals));renderGoals()}
+function renderGoals(){
+  $("goalList").innerHTML="";
+  goals.forEach((goal,index)=>{
+    const row=document.createElement("div");row.className="task";
+    const text=document.createElement("span");text.textContent="🌟 "+goal;
+    const del=document.createElement("button");del.textContent="حذف";
+    del.onclick=()=>{goals.splice(index,1);saveGoals()};
+    row.append(text,del);$("goalList").append(row);
+  });
+}
+renderGoals();
+
+let exams=JSON.parse(localStorage.getItem("ky_exams")||"[]");
+function addExam(){
+  const name=$("examName").value.trim(),score=$("examScore").value.trim(),note=$("examNote").value.trim();
+  if(!name||!score)return alert("نام آزمون و نمره را وارد کن.");
+  exams.push({name,score,note});localStorage.setItem("ky_exams",JSON.stringify(exams));
+  $("examName").value="";$("examScore").value="";$("examNote").value="";renderExams();
+}
+function renderExams(){
+  $("examList").innerHTML="";
+  exams.forEach((exam,index)=>{
+    const row=document.createElement("div");row.className="card";
+    const title=document.createElement("strong");title.textContent=exam.name+" — "+exam.score;
+    const note=document.createElement("p");note.textContent=exam.note||"بدون توضیحات";
+    const del=document.createElement("button");del.textContent="حذف";
+    del.onclick=()=>{exams.splice(index,1);localStorage.setItem("ky_exams",JSON.stringify(exams));renderExams()};
+    row.append(title,note,del);$("examList").append(row);
+  });
+}
+renderExams();
+
+$("examDate").value=localStorage.getItem("ky_date")||"";
+$("examDate").addEventListener("change",()=>{localStorage.setItem("ky_date",$("examDate").value);updateCountdown()});
+function updateCountdown(){
+  const date=$("examDate").value;
+  if(!date){$("countdown").textContent="تاریخ را انتخاب کن";return}
+  const target=new Date(date+"T00:00:00"),now=new Date();
+  const days=Math.ceil((target-now)/86400000);
+  $("countdown").textContent=days>0?days+" روز باقی مانده 💜":days===0?"امروز روز آزمون است!":"تاریخ انتخاب‌شده گذشته است";
+}
+updateCountdown();
+
+let seconds=0,timerInterval=null;
+function showTimer(){
+  const h=String(Math.floor(seconds/3600)).padStart(2,"0");
+  const m=String(Math.floor((seconds%3600)/60)).padStart(2,"0");
+  const s=String(seconds%60).padStart(2,"0");
+  $("timer").textContent=`${h}:${m}:${s}`;
+}
+function startTimer(){if(timerInterval)return;timerInterval=setInterval(()=>{seconds++;showTimer()},1000)}
+function pauseTimer(){clearInterval(timerInterval);timerInterval=null}
+function resetTimer(){pauseTimer();seconds=0;showTimer()}
+</script>
+</body>
+</html>
